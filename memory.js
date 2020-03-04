@@ -42,6 +42,6 @@ class Memory {
     set(ptr, value) {
       this.memory[ptr] = value;
     }
-  }
+}
   
-  module.exports = Memory;
+module.exports = Memory;

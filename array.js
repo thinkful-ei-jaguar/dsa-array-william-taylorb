@@ -1,8 +1,11 @@
-const Memory = require('./memory');
+const Mem = require('./memory');
+const Memory = new Mem()
 
 class DSAarray {
+    
     constructor() {
         this.length = 0;
+        this._capacity = 0;
         this.ptr = Memory.allocate(this.length)
     }
     _resize(size) {
@@ -13,9 +16,13 @@ class DSAarray {
         }
         Memory.copy(this.ptr, oldPtr, this.length)
         Memory.free(oldPtr);
+        this._capacity = size
     }
     push(value) {
-        this._resize(this.length + 1);
+        if (this.length >= this._capacity) {
+            this._resize((this.length + 1) * DSAarray.SIZE_RATIO);
+        }
+
         Memory.set(this.ptr + this.length, value);
         this.length++;
     }
@@ -39,7 +46,7 @@ class DSAarray {
         }
 
         if (this.length >= this._capacity) {
-            this._resize((this.length + 1) * Array.SIZE_RATIO);
+            this._resize((this.length + 1) * DSAarray.SIZE_RATIO);
         }
 
         Memory.copy(this.ptr + index + 1, this.ptr + index, this.length - index)
@@ -55,5 +62,25 @@ class DSAarray {
     }
 }
 
+function main() {
+    DSAarray.SIZE_RATIO = 3; 
+
+    let arr = new DSAarray
+
+    arr.push(3);
+    // arr.push(5);
+    // arr.push(15);
+    // arr.push(19);
+    // arr.push(45);
+    // arr.push(10);
+    // arr.pop();
+    // arr.pop();
+    // arr.pop();
+
+    arr.push('tauhida')
 
 
+    console.log(arr);
+
+}
+main()
